@@ -1,0 +1,9 @@
+/* styles.css */
+
+/* Style for the container of the chart */
+#main {
+  width: 900px;
+  height: 600px;
+  background-color: #f0f0f0; /* Optional: Background color for the chart area */
+  margin: 0 auto; /* Optional: Center the chart container */
+}

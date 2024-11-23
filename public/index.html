@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Module 5</title>
-        <meta name="author" content="Collin C" />
-    </head>
-    <body>
-        <h1>Hello Students</h1>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Module 5</title>
+    <meta name="author" content="Julian Todd" />
+  </head>
+  <body>
+    <h1>Hello Students</h1>
+    <a href="calculator.html">Calculator Link</a>
+    <button onclick="PostRequest">Post</button>
+    <script>
+      function PostRequest() {
+        console.log("button Pressed")
+        fetch("/userRoutes", {
+          method: "POST",
+          body: JSON.stringify({ name: "Julian", country: "USA" }),
+        });
+      }
+    </script>
+  </body>
 </html>

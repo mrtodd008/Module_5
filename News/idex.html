@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .news-container {
+        margin-top: 20px;
+      }
+      .news-item {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+      .input-container {
+        margin-bottom: 20px;
+      }
+      input,
+      textarea {
+        margin-top: 5px;
+        padding: 10px;
+        width: 100%;
+        max-width: 400px;
+        font-size: 16px;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Latest News</h1>
+
+    <!-- Form for adding new news item -->
+    <div class="input-container">
+      <h2>Add New News Item</h2>
+      <label for="title">Title:</label>
+      <input type="text" id="title" placeholder="Enter news title" />
+
+      <label for="content">Content:</label>
+      <textarea
+        id="content"
+        placeholder="Enter news content"
+        rows="4"
+      ></textarea>
+
+      <button onclick="addNews()">Submit News</button>
+    </div>
+
+    <div class="news-container" id="news-container">
+      <!-- News items will be displayed here -->
+    </div>
+
+    <script>
+      // Initial news array
+      const news = [
+        {
+          id: 1,
+          title: "Election Results",
+          content: "Newly elected minister...",
+        },
+        { id: 2, title: "Sporting Success", content: "World Cup winners..." },
+        {
+          id: 3,
+          title: "Tornado Warning",
+          content: "Residents should prepare...",
+        },
+      ];
+
+      // Function to render news on the page
+      function renderNews() {
+        const newsContainer = document.getElementById("news-container");
+
+        // Clear the current news items
+        newsContainer.innerHTML = "";
+
+        // Loop through the news array and create a new element for each news item
+        news.forEach((item) => {
+          const newsItemDiv = document.createElement("div");
+          newsItemDiv.classList.add("news-item");
+
+          const title = document.createElement("h3");
+          title.textContent = item.title;
+
+          const content = document.createElement("p");
+          content.textContent = item.content;
+
+          // Append the title and content to the news item div
+          newsItemDiv.appendChild(title);
+          newsItemDiv.appendChild(content);
+
+          // Append the news item div to the news container
+          newsContainer.appendChild(newsItemDiv);
+        });
+      }
+
+      // Function to add a new news item
+      function addNews() {
+        const titleInput = document.getElementById("title");
+        const contentInput = document.getElementById("content");
+
+        // Get the values from the inputs
+        const newTitle = titleInput.value.trim();
+        const newContent = contentInput.value.trim();
+
+        // Validate that both fields are filled
+        if (newTitle && newContent) {
+          // Add the new news item to the array
+          const newNewsItem = {
+            id: news.length + 1, // Incremental ID
+            title: newTitle,
+            content: newContent,
+          };
+          news.push(newNewsItem);
+
+          // Clear the input fields
+          titleInput.value = "";
+          contentInput.value = "";
+
+          // Re-render the news list to include the new item
+          renderNews();
+        } else {
+          alert("Please fill in both the title and content fields.");
+        }
+      }
+
+      // Initial render when the page loads
+      renderNews();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<html>
+  <head>
+<!DOCTYPE html>
+<html lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Placeholder Posts</title>
+  </head>
+  <body>
+    <h1>Check the console</h1>
+  </body>
+  <script>
+    fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST", // GET is default, but we can also use POST
+      body: JSON.stringify({
+        // POSTed data goes in the request body
+        title: "The Studio",
+        body: "Something funny",
+        userId: 1,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+  </script>
+</html>

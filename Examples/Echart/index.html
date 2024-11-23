@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ECharts</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Include the ECharts library from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+  </head>
+  <body>
+    <!-- Prepare a DOM element with a defined width and height for the ECharts chart -->
+    <div id="main"></div>
+
+    <script type="text/javascript">
+      // Initialize the echarts instance based on the prepared DOM element
+      let myChart = echarts.init(document.getElementById("main"));
+
+      // Specify the configuration options and data for the chart
+      let option = {
+        title: {
+          text: "ECharts Getting Started Example", // Title of the chart
+        },
+        tooltip: {}, // Tooltip to show on hover
+        legend: {
+          data: ["sales"], // The name of the series shown in the legend
+        },
+        xAxis: {
+          data: ["Shirts", "Cardigans", "Chiffons", "Pants", "Heels", "Socks"], // Labels for the x-axis
+        },
+        yAxis: {}, // No special configuration for yAxis
+        series: [
+          {
+            name: "sales", // The name of the series
+            type: "bar", // Type of chart (bar chart in this case)
+            data: [5, 20, 36, 10, 10, 20], // Data for the chart
+          },
+        ],
+      };
+
+      // Display the chart using the configuration above
+      myChart.setOption(option);
+    </script>
+  </body>
+</html>

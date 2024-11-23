@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fake eCommerce Website</title>
+    <!-- Include Bootstrap CSS for styling -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Optional: FontAwesome for category icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container my-5">
+      <h1 class="text-center mb-4">Fake eCommerce Store</h1>
+
+      <!-- Search Bar -->
+      <div class="row mb-3">
+        <div class="col-12">
+          <input
+            type="text"
+            id="searchInput"
+            class="form-control"
+            placeholder="Search for items..."
+            onkeyup="filterItems()"
+          />
+        </div>
+      </div>
+
+      <!-- Category Dropdown -->
+      <div class="row mb-3">
+        <div class="col-12">
+          <select
+            title="Clothes"
+            id="categorySelect"
+            class="form-control"
+            onchange="filterItems()"
+          >
+            <option value="">Select Category</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Sorting Dropdown -->
+      <div class="row mb-3">
+        <div class="col-12">
+          <select id="sortSelect" class="form-control" onchange="sortItems()">
+            <option value="price-asc">Sort by Price: Low to High</option>
+            <option value="price-desc">Sort by Price: High to Low</option>
+            <option value="title-asc">Sort by Title: A-Z</option>
+            <option value="title-desc">Sort by Title: Z-A</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Product Cards -->
+      <div id="productsContainer" class="row">
+        <!-- Dynamic product cards will go here -->
+      </div>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery for functionality -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+      // Fetch data from FakeStoreAPI
+      let products = [];
+      let filteredProducts = [];
+
+      // Function to fetch data from FakeStoreAPI
+      async function fetchData() {
+        const response = await fetch("https://fakestoreapi.com/products");
+        products = await response.json();
+        filteredProducts = products; // Initially, show all products
+        populateCategoryDropdown();
+        displayProducts(filteredProducts);
+      }
+
+      // Populate category dropdown with unique categories
+      function populateCategoryDropdown() {
+        const categories = [
+          ...new Set(products.map((product) => product.category)),
+        ];
+        const categorySelect = document.getElementById("categorySelect");
+
+        categories.forEach((category) => {
+          const option = document.createElement("option");
+          option.value = category;
+          option.textContent =
+            category.charAt(0).toUpperCase() + category.slice(1);
+          categorySelect.appendChild(option);
+        });
+      }
+
+      // Function to display products in Bootstrap cards
+      function displayProducts(productsList) {
+        const productsContainer = document.getElementById("productsContainer");
+        productsContainer.innerHTML = "";
+
+        productsList.forEach((product) => {
+          const card = `
+          <div class="col-md-4 mb-4">
+            <div class="card">
+              <img src="${product.image}" class="card-img-top" alt="${
+            product.title
+          }">
+              <div class="card-body">
+                <h5 class="card-title">${product.title}</h5>
+                <p class="card-text">${product.description}</p>
+                <p class="card-text"><strong>$${product.price}</strong></p>
+                <button class="btn btn-primary">Add to Cart</button>
+                <span class="badge badge-secondary category-icon">${getCategoryIcon(
+                  product.category
+                )}</span>
+              </div>
+            </div>
+          </div>
+        `;
+          productsContainer.innerHTML += card;
+        });
+      }
+
+      // Function to get custom icons for categories
+      function getCategoryIcon(category) {
+        switch (category) {
+          case "electronics":
+            return '<i class="fas fa-tv"></i>';
+          case "jewelery":
+            return '<i class="fas fa-gem"></i>';
+          case "men's clothing":
+            return '<i class="fas fa-tshirt"></i>';
+          case "women's clothing":
+            return '<i class="fas fa-female"></i>';
+          default:
+            return "";
+        }
+      }
+
+      // Function to filter items based on category or search input
+      function filterItems() {
+        const searchQuery = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const selectedCategory =
+          document.getElementById("categorySelect").value;
+
+        filteredProducts = products.filter((product) => {
+          const matchesSearch =
+            product.title.toLowerCase().includes(searchQuery) ||
+            product.description.toLowerCase().includes(searchQuery);
+          const matchesCategory =
+            selectedCategory === "" || product.category === selectedCategory;
+          return matchesSearch && matchesCategory;
+        });
+
+        displayProducts(filteredProducts);
+      }
+
+      // Function to sort items based on selected criteria
+      function sortItems() {
+        const sortCriteria = document.getElementById("sortSelect").value;
+
+        if (sortCriteria === "price-asc") {
+          filteredProducts.sort((a, b) => a.price - b.price);
+        } else if (sortCriteria === "price-desc") {
+          filteredProducts.sort((a, b) => b.price - a.price);
+        } else if (sortCriteria === "title-asc") {
+          filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
+        } else if (sortCriteria === "title-desc") {
+          filteredProducts.sort((a, b) => b.title.localeCompare(a.title));
+        }
+
+        displayProducts(filteredProducts);
+      }
+
+      // Initialize the page by fetching data
+      fetchData();
+    </script>
+  </body>
+</html>

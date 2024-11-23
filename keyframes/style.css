@@ -1,0 +1,46 @@
+/* Basic styling for the page */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #0a0000;
+}
+
+/* The square slider */
+.slider {
+  width: 500px;
+  height: 500px;
+  background-color: #db6c34;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: slide 4s ease-in-out infinite;
+}
+
+/* Keyframes for sliding animation and background color change */
+@keyframes slide {
+  0% {
+    top: 0;
+    background-color: #3498db;
+  }
+  25% {
+    top: 50%;
+    background-color: #00cd11;
+  }
+  50% {
+    top: 100%;
+    background-color: #f31243;
+  }
+  75% {
+    top: 50%;
+    background-color: #2ecc71;
+  }
+  100% {
+    top: 0;
+    background-color: #049bff;
+  }
+}
